@@ -22,8 +22,8 @@
 		)
 		values
 		(
-			#{shoppingType}
-			#{shoppingPlace}
+			#{shoppingType},
+			#{shoppingPlace},
 			#{shoppingDate}
 		)
 	</insert>

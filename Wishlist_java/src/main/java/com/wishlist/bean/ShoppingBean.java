@@ -1,17 +1,17 @@
 package com.wishlist.bean;
 
-import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@Builder
+@NoArgsConstructor
 public class ShoppingBean {
 	
-	private int shopping_seq;
-	private String shopping_type;
-	private String shopping_place;
-	private String shopping_date;
-	private String del_flag;
+	private int shoppingSeq;
+	private String shoppingType;
+	private String shoppingPlace;
+	private String shoppingDate;
+	private String delFlag;
 }

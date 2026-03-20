@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wishlist.bean.ShoppingBean;
@@ -22,10 +23,11 @@ public class TestController {
 	}
 	
 	@PostMapping("/insertShopping")
-	public String insertShopping(ShoppingBean shoppingBean) {
+	public String insertShopping(@RequestBody ShoppingBean shoppingBean) {
 		try {
 			shoppingService.insertShopping(shoppingBean);
 		} catch(Exception e) {
+			e.printStackTrace();
 			return "FAIL";
 		}
 		
