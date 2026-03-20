@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.wishlist.model.dao.ShoppingMapper">
+	<select id="shoppingList" resultType="com.wishlist.bean.ShoppingBean">
+		select
+			*
+		from
+			shopping
+		where
+			del_flag = 'N'
+	</select>
+	
+	<insert id="insertShopping" parameterType="com.wishlist.bean.ShoppingBean">
+		insert into
+			shopping
+		(
+			shopping_type,
+			shopping_place,
+			shopping_date
+		)
+		values
+		(
+			#{shoppingType}
+			#{shoppingPlace}
+			#{shoppingDate}
+		)
+	</insert>
+</mapper>
