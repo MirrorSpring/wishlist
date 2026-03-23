@@ -12,7 +12,7 @@ import com.wishlist.bean.ShoppingBean;
 import com.wishlist.model.service.ShoppingService;
 
 @RestController
-public class TestController {
+public class ShoppingController {
 	
 	@Autowired
 	private ShoppingService shoppingService;

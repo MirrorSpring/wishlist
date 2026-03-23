@@ -23,7 +23,7 @@ public class MybatisConfig {
 	SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
 	  SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 	  sqlSessionFactoryBean.setDataSource(dataSource); // 데이터 소스 설정
-	 // sqlSessionFactoryBean.setConfigLocation(new ClassPathResource("mybatis-config.xml"));
+	  sqlSessionFactoryBean.setConfigLocation(new ClassPathResource("mybatis-config.xml"));
 	  sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:mapper/**/*.xml"));
 	  return sqlSessionFactoryBean.getObject(); // SqlSessionFactory 반환
 	}
