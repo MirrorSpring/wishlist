@@ -19,4 +19,14 @@ class Shopping{
   shoppingType = res['shoppingType'],
   shoppingDate = res['shoppingDate'],
   delFlag = res['delFlag'];
+
+  factory Shopping.fromJson(Map<String, dynamic> jsonData){
+    return Shopping(
+      shoppingSeq: jsonData['shoppingSeq'],
+      shoppingPlace: jsonData['shoppingPlace'],
+      shoppingType: jsonData['shoppingType'],
+      shoppingDate: jsonData['shoppingDate'],
+      delFlag: jsonData['delFlag']
+    );
+  }
 }
