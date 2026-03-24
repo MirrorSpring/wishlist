@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wishlist_flutter/action/shopping_action.dart';
 import 'package:wishlist_flutter/model/shopping.dart';
 import 'package:wishlist_flutter/view/insert_shopping.dart';
+import 'package:wishlist_flutter/view/shopping_detail.dart';
 
 class ShoppingList extends StatefulWidget {
   const ShoppingList({super.key});
@@ -57,14 +58,21 @@ class _ShoppingListState extends State<ShoppingList> {
               return ListView.builder(
                 itemCount: snapshot.data?.length,
                 itemBuilder: (context, index) {
-                  return Card(
-                    child: Column(
-                      children: [
-                        Text("쇼핑 장소: ${snapshot.data![index].shoppingPlace}"),
-                        Text("쇼핑 유형: ${snapshot.data![index].shoppingType}"),
-                        Text("쇼핑 일자: ${snapshot.data![index].shoppingDate}"),
-                      ],
-                    )
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return ShoppingDetail(shoppingSeq: snapshot.data![index].shoppingSeq);
+                      }));
+                    },
+                    child: Card(
+                      child: Column(
+                        children: [
+                          Text("쇼핑 장소: ${snapshot.data![index].shoppingPlace}"),
+                          Text("쇼핑 유형: ${snapshot.data![index].shoppingType}"),
+                          Text("쇼핑 일자: ${snapshot.data![index].shoppingDate}"),
+                        ],
+                      )
+                    ),
                   );
                 },
               );

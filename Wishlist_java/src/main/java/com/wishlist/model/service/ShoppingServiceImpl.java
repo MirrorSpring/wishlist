@@ -24,4 +24,9 @@ public class ShoppingServiceImpl implements ShoppingService{
 		shoppingMapper.insertShopping(shoppingBean);
 	}
 
+	@Override
+	public ShoppingBean shoppingDetail(int shoppingSeq) {
+		return shoppingMapper.shoppingDetail(shoppingSeq);
+	}
+
 }

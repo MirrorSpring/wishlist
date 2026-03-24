@@ -48,4 +48,19 @@ class ShoppingAction {
 
     return shoppingList;
   }
+
+  Future<Shopping> shoppingDetail(int? shoppingSeq) async{
+    final response = await http.get(
+      Uri.parse('http://127.0.0.1:8080/shoppingDetail?shoppingSeq=$shoppingSeq'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
+    );
+
+    if (response.statusCode != 201 && response.statusCode != 200){
+      throw Exception("쇼핑 상세정보 받아오기 실패");
+    }
+
+    return Shopping.fromJson(jsonDecode(response.body));
+  }
 }

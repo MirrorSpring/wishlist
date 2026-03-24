@@ -34,8 +34,8 @@ public class ShoppingController {
 		return "SUCCESS";
 	}
 
-	@GetMapping("/test")
-	public String test() {
-		return "hello world";
+	@GetMapping("/shoppingDetail")
+	public ShoppingBean shoppingDetail(int shoppingSeq) {
+		return shoppingService.shoppingDetail(shoppingSeq);
 	}
 }

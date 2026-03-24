@@ -27,4 +27,17 @@
 			#{shoppingDate}
 		)
 	</insert>
+	
+	<select id="shoppingDetail" parameterType="int" resultType="com.wishlist.bean.ShoppingBean">
+		select
+			shopping_type,
+			shopping_seq,
+			shopping_place,
+			shopping_date
+		from
+			shopping
+		where
+			del_flag = 'N'
+			and shopping_seq = #{shoppingSeq}
+	</select>
 </mapper>

@@ -10,4 +10,5 @@ import com.wishlist.bean.ShoppingBean;
 public interface ShoppingMapper {
 	List<ShoppingBean> shoppingList();
 	void insertShopping(ShoppingBean shoppingBean);
+	ShoppingBean shoppingDetail(int shoppingSeq);
 }
