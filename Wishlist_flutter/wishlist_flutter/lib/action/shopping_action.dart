@@ -23,7 +23,7 @@ class ShoppingAction {
       body: json
     );
 
-    if (response.statusCode != 201 || response.statusCode != 200){
+    if (response.statusCode != 201 && response.statusCode != 200){
       throw Exception("쇼핑 계획 입력 실패");
     }
 
@@ -62,5 +62,25 @@ class ShoppingAction {
     }
 
     return Shopping.fromJson(jsonDecode(response.body));
+  }
+
+  Future<int> deleteShopping(int? shoppingSeq) async{
+    String json = jsonEncode(<String, String?>{
+        'shoppingSeq': '$shoppingSeq'
+      }
+    );
+    final response = await http.post(
+      Uri.parse('http://127.0.0.1:8080/deleteShopping'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json
+    );
+
+    if (response.statusCode != 201 && response.statusCode != 200){
+      throw Exception("쇼핑 계획 삭제 실패: ${response.statusCode}");
+    }
+
+    return 201;
   }
 }

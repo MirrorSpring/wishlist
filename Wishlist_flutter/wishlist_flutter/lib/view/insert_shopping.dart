@@ -133,9 +133,15 @@ class _InsertShoppingState extends State<InsertShopping> {
                     ),
                   ],
                 ),
-                ElevatedButton(onPressed: () {
-                  Shopping shopping = Shopping(shoppingPlace: shoppingPlaceCont.text, shoppingType: _shoppingType.label, shoppingDate: shoppingDate);
-                  insertShopping(shopping);
+                ElevatedButton(onPressed: () async{
+                    Shopping shopping = Shopping(shoppingPlace: shoppingPlaceCont.text, shoppingType: _shoppingType.label, shoppingDate: shoppingDate);
+                    await insertShopping(shopping);
+                    if (!mounted){
+                      return;
+                    }
+                    if(context.mounted){
+                      Navigator.pop(context, true);
+                    }
                   },
                   child: const Text("입력")
                 ),
