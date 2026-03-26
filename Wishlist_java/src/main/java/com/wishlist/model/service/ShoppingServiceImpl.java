@@ -29,4 +29,9 @@ public class ShoppingServiceImpl implements ShoppingService{
 		return shoppingMapper.shoppingDetail(shoppingSeq);
 	}
 
+	@Override
+	public void deleteShopping(int shoppingSeq) {
+		shoppingMapper.deleteShopping(shoppingSeq);
+	}
+
 }

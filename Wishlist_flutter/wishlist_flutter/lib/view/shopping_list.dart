@@ -62,7 +62,14 @@ class _ShoppingListState extends State<ShoppingList> {
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) {
                         return ShoppingDetail(shoppingSeq: snapshot.data![index].shoppingSeq);
-                      }));
+                        }
+                      )).then(
+                        (value) {
+                          setState(() {
+                            shoppingList = shoppingAction.shoppingList();
+                          });
+                        },
+                      );
                     },
                     child: Card(
                       child: Column(

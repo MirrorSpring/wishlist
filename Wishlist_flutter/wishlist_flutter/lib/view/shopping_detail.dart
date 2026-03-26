@@ -40,6 +40,28 @@ class _ShoppingDetailState extends State<ShoppingDetail> {
                         Text("쇼핑 유형: ${snapshot.data?.shoppingType}"),
                         Text("쇼핑 장소: ${snapshot.data?.shoppingPlace}"),
                         Text("쇼핑 일자: ${snapshot.data?.shoppingDate}"),
+                        Row(
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                
+                              },
+                              child: const Text("품목 추가")
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                
+                              },
+                              child: const Text("수정")
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                _showDeleteConfirm(snapshot.data?.shoppingSeq);
+                              },
+                              child: const Text("삭제")
+                            ),
+                          ],
+                        )
                       ],
                     )
                   );
@@ -53,6 +75,48 @@ class _ShoppingDetailState extends State<ShoppingDetail> {
           ]
         )
       )
+    );
+  }
+
+  ///삭제 확인 다이얼로그 표시
+  _showDeleteConfirm(int? shoppingSeq) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text(
+            '쇼핑 정보 삭제',
+          ),
+          content: const Text(
+            '정말로 삭제하시겠습니까?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                '아니오',
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                await shoppingAction.deleteShopping(shoppingSeq);
+                if (!mounted){
+                  return;
+                }
+                if(context.mounted){
+                  Navigator.of(context).pop();
+                  Navigator.pop(context, true);
+                }
+              },
+              child: const Text(
+                '예',
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

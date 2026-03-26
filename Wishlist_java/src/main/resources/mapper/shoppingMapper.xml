@@ -40,4 +40,13 @@
 			del_flag = 'N'
 			and shopping_seq = #{shoppingSeq}
 	</select>
+	
+	<update id="deleteShopping" parameterType="int">
+		update
+			shopping
+		set
+			del_flag = 'Y'
+		where
+			shopping_seq = #{shoppingSeq}
+	</update>
 </mapper>

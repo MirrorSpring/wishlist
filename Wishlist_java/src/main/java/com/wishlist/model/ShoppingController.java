@@ -38,4 +38,15 @@ public class ShoppingController {
 	public ShoppingBean shoppingDetail(int shoppingSeq) {
 		return shoppingService.shoppingDetail(shoppingSeq);
 	}
+	
+	@PostMapping("/deleteShopping")
+	public String deleteShopping(@RequestBody ShoppingBean shoppingBean) {
+		try {
+			shoppingService.deleteShopping(shoppingBean.getShoppingSeq());
+		} catch(Exception e) {
+			return "FAIL";
+		}
+		
+		return "SUCCESS";
+	}
 }
