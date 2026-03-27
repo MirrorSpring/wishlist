@@ -24,7 +24,7 @@ class ShoppingAction {
     );
 
     if (response.statusCode != 201 && response.statusCode != 200){
-      throw Exception("쇼핑 계획 입력 실패");
+      throw Exception("쇼핑 정보 입력 실패");
     }
 
     return 201;
@@ -78,7 +78,30 @@ class ShoppingAction {
     );
 
     if (response.statusCode != 201 && response.statusCode != 200){
-      throw Exception("쇼핑 계획 삭제 실패: ${response.statusCode}");
+      throw Exception("쇼핑 정보 삭제 실패: ${response.statusCode}");
+    }
+
+    return 201;
+  }
+
+  Future<int> updateShopping() async{
+    String json = jsonEncode(<String, String?>{
+        'shoppingType': shopping?.shoppingType,
+        'shoppingPlace': shopping?.shoppingPlace,
+        'shoppingDate': shopping?.shoppingDate,
+        'shoppingSeq': '${shopping?.shoppingSeq}'
+      });
+    print(json);
+    final response = await http.post(
+      Uri.parse('http://127.0.0.1:8080/updateShopping'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json
+    );
+
+    if (response.statusCode != 201 && response.statusCode != 200){
+      throw Exception("쇼핑 정보 수정 실패");
     }
 
     return 201;

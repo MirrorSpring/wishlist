@@ -4,14 +4,15 @@ import 'package:wishlist_flutter/action/shopping_action.dart';
 import 'package:wishlist_flutter/model/shopping.dart';
 import 'package:wishlist_flutter/model/shopping_type_list.dart';
 
-class InsertShopping extends StatefulWidget {
-  const InsertShopping({super.key});
+class UpdateShopping extends StatefulWidget {
+  final Shopping shopping;
+  const UpdateShopping({super.key, required this.shopping});
 
   @override
-  State<InsertShopping> createState() => _InsertShoppingState();
+  State<UpdateShopping> createState() => _UpdateShoppingState();
 }
 
-class _InsertShoppingState extends State<InsertShopping> {
+class _UpdateShoppingState extends State<UpdateShopping> {
   ShoppingTypeList _shoppingType = ShoppingTypeList.st01;
   String shoppingDate = "";
   String selectedShoppingTYpe = "";
@@ -23,6 +24,9 @@ class _InsertShoppingState extends State<InsertShopping> {
   void initState() {
     super.initState();
     shoppingPlaceCont = TextEditingController();
+    shoppingPlaceCont.text = widget.shopping.shoppingPlace;
+    shoppingDate = widget.shopping.shoppingDate;
+    _shoppingType = _shoppingType.getShopingTypeFromLabel(widget.shopping.shoppingType);
   }
 
   @override
@@ -37,7 +41,7 @@ class _InsertShoppingState extends State<InsertShopping> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("쇼핑 정보 입력"),
+          title: const Text("쇼핑 정보 수정"),
         ),
         body: SingleChildScrollView(
           child: Center(
@@ -124,8 +128,8 @@ class _InsertShoppingState extends State<InsertShopping> {
                   ],
                 ),
                 ElevatedButton(onPressed: () async{
-                    Shopping shopping = Shopping(shoppingPlace: shoppingPlaceCont.text, shoppingType: _shoppingType.label, shoppingDate: shoppingDate);
-                    await insertShopping(shopping);
+                    Shopping shopping = Shopping(shoppingPlace: shoppingPlaceCont.text, shoppingType: _shoppingType.label, shoppingDate: shoppingDate, shoppingSeq: widget.shopping.shoppingSeq);
+                    await updateShopping(shopping);
                     if (!mounted){
                       return;
                     }
@@ -133,7 +137,7 @@ class _InsertShoppingState extends State<InsertShopping> {
                       Navigator.pop(context, true);
                     }
                   },
-                  child: const Text("입력")
+                  child: const Text("수정")
                 ),
               ],
             ),
@@ -143,9 +147,9 @@ class _InsertShoppingState extends State<InsertShopping> {
     );
   }
 
-  Future<int> insertShopping(Shopping shopping) async{
+  Future updateShopping(Shopping shopping) async{
     ShoppingAction shoppingAction = ShoppingAction(shopping: shopping);
-    int res = await shoppingAction.insertShopping();
+    int res = await shoppingAction.updateShopping();
     return res;
   }
 }

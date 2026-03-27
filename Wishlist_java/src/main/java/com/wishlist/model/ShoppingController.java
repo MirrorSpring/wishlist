@@ -49,4 +49,14 @@ public class ShoppingController {
 		
 		return "SUCCESS";
 	}
+	
+	@PostMapping("/updateShopping")
+	public String updateShopping(@RequestBody ShoppingBean shoppingBean) {
+		try {
+			shoppingService.updateShopping(shoppingBean);
+		} catch(Exception e) {
+			return "FAIL";
+		}
+		return "SUCCESS";
+	}
 }

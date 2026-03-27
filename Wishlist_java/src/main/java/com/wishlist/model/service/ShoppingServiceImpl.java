@@ -34,4 +34,9 @@ public class ShoppingServiceImpl implements ShoppingService{
 		shoppingMapper.deleteShopping(shoppingSeq);
 	}
 
+	@Override
+	public void updateShopping(ShoppingBean shoppingBean) {
+		shoppingMapper.updateShopping(shoppingBean);
+	}
+
 }

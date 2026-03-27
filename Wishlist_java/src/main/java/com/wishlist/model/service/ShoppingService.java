@@ -12,4 +12,5 @@ public interface ShoppingService {
 	void insertShopping(ShoppingBean shoppingBean);
 	ShoppingBean shoppingDetail(int shoppingSeq);
 	void deleteShopping(int shoppingSeq);
+	void updateShopping(ShoppingBean shoppingBean);
 }

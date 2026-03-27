@@ -49,4 +49,15 @@
 		where
 			shopping_seq = #{shoppingSeq}
 	</update>
+	
+	<update id="updateShopping" parameterType="com.wishlist.bean.ShoppingBean">
+		update
+			shopping
+		set
+			shopping_type = #{shoppingType},
+			shopping_place = #{shoppingPlace},
+			shopping_date = #{shoppingDate}
+		where
+			shopping_seq = #{shoppingSeq}
+	</update>
 </mapper>

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wishlist_flutter/action/shopping_action.dart';
 import 'package:wishlist_flutter/model/shopping.dart';
+import 'package:wishlist_flutter/view/update_shopping.dart';
 
 class ShoppingDetail extends StatefulWidget {
   final int? shoppingSeq;
@@ -50,7 +51,27 @@ class _ShoppingDetailState extends State<ShoppingDetail> {
                             ),
                             TextButton(
                               onPressed: () {
-                                
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return UpdateShopping(
+                                        shopping: Shopping(
+                                          shoppingDate: snapshot.data!.shoppingDate,
+                                          shoppingPlace: snapshot.data!.shoppingPlace,
+                                          shoppingType: snapshot.data!.shoppingType,
+                                          shoppingSeq: widget.shoppingSeq
+                                        )
+                                      );
+                                    },
+                                  )
+                                ).then(
+                                  (value) {
+                                    setState(() {
+                                      shoppingDetail = shoppingAction.shoppingDetail(widget.shoppingSeq);
+                                    });
+                                  },
+                                );
                               },
                               child: const Text("수정")
                             ),
