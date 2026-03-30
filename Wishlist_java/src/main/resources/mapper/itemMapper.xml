@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wishlist.model.dao.ItemMapper">
+	<insert id="insertItem" parameterType="com.wishlist.bean.ItemBean">
+		insert into
+			item
+		(
+			shopping_seq,
+			item_name,
+			item_unit_price,
+			item_buy_quant
+		)
+		values
+		(
+			#{shoppingSeq},
+			#{itemName},
+			#{itemUnitPrice},
+			#{itemBuyQuant}
+		)
+	</insert>
+	
+	<select id="itemList" parameterType="int" resultType="com.wishlist.bean.ItemBean">
+		select
+			*
+		from
+			item
+		where
+			shopping_seq = #{shoppingSeq}
+			and del_flag = 'N'
+	</select>
+	
+	<update id="changeItemBuyFlag" parameterType="com.wishlist.bean.ItemBean">
+		update
+			item
+		set
+			item_buy_flag = #{itemBuyFlag}
+		where
+			item_seq = #{itemSeq}
+	</update>
+</mapper>
