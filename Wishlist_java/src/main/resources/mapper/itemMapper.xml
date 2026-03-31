@@ -38,4 +38,13 @@
 		where
 			item_seq = #{itemSeq}
 	</update>
+	
+	<update id="deleteItem" parameterType="int">
+		update
+			item
+		set
+			del_flag = 'Y'
+		where
+			item_seq = #{itemSeq}
+	</update>
 </mapper>

@@ -11,4 +11,5 @@ public interface ItemService {
 	void insertItem(ItemBean itemBean);
 	List<ItemBean> itemList(int shoppingSeq);
 	void changeItemBuyFlag(ItemBean itemBean);
+	void deleteItem(int itemSeq);
 }

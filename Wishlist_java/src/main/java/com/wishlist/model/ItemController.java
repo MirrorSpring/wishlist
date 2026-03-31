@@ -46,4 +46,16 @@ public class ItemController {
 		
 		return "SUCCESS";
 	}
+	
+	@PostMapping("/deleteItem")
+	public String deleteItem(@RequestBody ItemBean itemBean) {
+		try {
+			itemService.deleteItem(itemBean.getItemSeq());
+		} catch(Exception e) {
+			e.printStackTrace();
+			return "FAIL";
+		}
+		
+		return "SUCCESS";
+	}
 }

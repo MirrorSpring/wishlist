@@ -74,4 +74,25 @@ class ItemAction {
 
     return 201;
   }
+
+  Future<int> deleteItem(int? itemSeq) async{
+    String json = jsonEncode(<String, String?>{
+      'itemSeq': '$itemSeq'
+    });
+
+    final response = await http.post(
+      Uri.parse("http://127.0.0.1:8080/deleteItem"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+
+      body: json
+    );
+
+    if (response.statusCode != 201 && response.statusCode != 200){
+      throw Exception("품목 삭제 실패");
+    }
+
+    return 201;
+  }
 }

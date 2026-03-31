@@ -29,4 +29,9 @@ public class ItemServiceImpl implements ItemService {
 		itemMapper.changeItemBuyFlag(itemBean);
 	}
 
+	@Override
+	public void deleteItem(int itemSeq) {
+		itemMapper.deleteItem(itemSeq);
+	}
+
 }

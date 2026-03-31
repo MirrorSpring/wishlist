@@ -116,35 +116,40 @@ class _ShoppingDetailState extends State<ShoppingDetail> {
                         shrinkWrap: true,
                         itemCount: snapshot.data?.length,
                         itemBuilder: (context, index) {
-                          return SizedBox(
-                            child: Card(
-                              child: Row(
-                                children: [
-                                  Column(
-                                    children: [
-                                      Text(
-                                        '품목명: ${snapshot.data![index].itemName}'
-                                        '구매량: ${snapshot.data![index].itemBuyQuant}'
-                                        '단가: ${snapshot.data![index].itemUnitPrice}'
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Checkbox(
-                                        value: snapshot.data![index].itemBuyFlag == 'Y',
-                                        onChanged: (value) async{
-                                          String itemBuyFlag = value!?'Y':'N';
-                                          await itemAction.changeItemBuyFlag(snapshot.data![index].itemSeq, itemBuyFlag);
-                                          setState(() {
-                                            itemList = itemAction.itemList(widget.shoppingSeq);
-                                          });
-                                        },
-                                      )
-                                    ],
-                                  )
-                                ],
-                              )
+                          return GestureDetector(
+                            onLongPress: () {
+                              _showItemDeleteConfirm(snapshot.data![index].itemSeq);
+                            },
+                            child: SizedBox(
+                              child: Card(
+                                child: Row(
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Text(
+                                          '품목명: ${snapshot.data![index].itemName}'
+                                          '구매량: ${snapshot.data![index].itemBuyQuant}'
+                                          '단가: ${snapshot.data![index].itemUnitPrice}'
+                                        )
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Checkbox(
+                                          value: snapshot.data![index].itemBuyFlag == 'Y',
+                                          onChanged: (value) async{
+                                            String itemBuyFlag = value!?'Y':'N';
+                                            await itemAction.changeItemBuyFlag(snapshot.data![index].itemSeq, itemBuyFlag);
+                                            setState(() {
+                                              itemList = itemAction.itemList(widget.shoppingSeq);
+                                            });
+                                          },
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                )
+                              ),
                             ),
                           );
                         },
@@ -287,6 +292,49 @@ class _ShoppingDetailState extends State<ShoppingDetail> {
                 '입력'
               )
             )
+          ],
+        );
+      },
+    );
+  }
+
+  _showItemDeleteConfirm(int? itemSeq){
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text(
+            '품목 삭제',
+          ),
+          content: const Text(
+            '정말로 삭제하시겠습니까?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                '아니오',
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                await itemAction.deleteItem(itemSeq);
+                if (!mounted){
+                  return;
+                }
+                if(context.mounted){
+                  Navigator.of(context).pop();
+                  setState(() {
+                    itemList = itemAction.itemList(widget.shoppingSeq);
+                  });
+                }
+              },
+              child: const Text(
+                '예',
+              ),
+            ),
           ],
         );
       },
