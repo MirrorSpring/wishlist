@@ -26,7 +26,7 @@
   - 오른쪽 체크박스를 클릭하여 구매 여부 체크
   <img width="1266" height="713" alt="image" src="https://github.com/user-attachments/assets/34a39191-a1d3-4085-b5fc-6175c5a71c10" />
 
-  - 품목 추가
-    - 품목명, 구매량, 단가로 구성
-    - 모두 자유 입력
+- 품목 추가
+  - 품목명, 구매량, 단가로 구성
+  - 모두 자유 입력
    <img width="1266" height="713" alt="image" src="https://github.com/user-attachments/assets/809bbb1e-f656-48fe-bf84-be17420c6b02" />
