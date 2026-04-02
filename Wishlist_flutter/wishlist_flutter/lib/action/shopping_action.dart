@@ -91,7 +91,6 @@ class ShoppingAction {
         'shoppingDate': shopping?.shoppingDate,
         'shoppingSeq': '${shopping?.shoppingSeq}'
       });
-    print(json);
     final response = await http.post(
       Uri.parse('http://127.0.0.1:8080/updateShopping'),
       headers: <String, String>{
