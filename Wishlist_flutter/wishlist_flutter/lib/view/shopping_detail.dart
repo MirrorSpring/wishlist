@@ -41,32 +41,38 @@ class _ShoppingDetailState extends State<ShoppingDetail> {
         title: const Text("쇼핑 계획 상세"),
       ),
       body: Center(
-        child: SizedBox(
-          child: SizedBox(
-            width: 1500,
-            child: Column(
-              children: [
-                FutureBuilder(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1200),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // 왼쪽: 쇼핑 정보
+              Expanded(
+                flex: 1,
+                child: FutureBuilder(
                   future: shoppingDetail,
                   builder: (context, snapshot) {
-                    if (snapshot.hasData){
+                    if (snapshot.hasData) {
                       return Card(
-                        child: Column(
-                          children: [
-                            Text("쇼핑 유형: ${snapshot.data?.shoppingType}"),
-                            Text("쇼핑 장소: ${snapshot.data?.shoppingPlace}"),
-                            Text("쇼핑 일자: ${snapshot.data?.shoppingDate}"),
-                            Row(
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    _showInsertItem();
-                                  },
-                                  child: const Text("품목 추가")
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("쇼핑 유형: ${snapshot.data!.shoppingType}"),
+                              Text("쇼핑 장소: ${snapshot.data!.shoppingPlace}"),
+                              Text("쇼핑 일자: ${snapshot.data!.shoppingDate}"),
+                              const SizedBox(height: 16),
+                              Row(
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: _showInsertItem,
+                                    child: const Text("품목 추가"),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) {
@@ -87,82 +93,70 @@ class _ShoppingDetailState extends State<ShoppingDetail> {
                                         });
                                       },
                                     );
-                                  },
-                                  child: const Text("수정")
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    _showDeleteConfirm(snapshot.data?.shoppingSeq);
-                                  },
-                                  child: const Text("삭제")
-                                ),
-                              ],
-                            )
-                          ],
-                        )
-                      );
-                    } else{
-                      return Card(
-                        child: Text("쇼핑 정보를 불러오고 있습니다")
+                                    },
+                                    child: const Text("수정"),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      _showDeleteConfirm(snapshot.data!.shoppingSeq);
+                                    },
+                                    child: const Text("삭제"),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
                       );
                     }
+                    return const CircularProgressIndicator();
                   },
                 ),
-                FutureBuilder(
+              ),
+              const SizedBox(width: 16),
+              // 오른쪽: 품목 리스트
+              Expanded(
+                flex: 2,
+                child: FutureBuilder(
                   future: itemList,
                   builder: (context, snapshot) {
-                    if (snapshot.hasData){
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: snapshot.data?.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onLongPress: () {
-                              _showItemDeleteConfirm(snapshot.data![index].itemSeq);
-                            },
-                            child: SizedBox(
-                              child: Card(
-                                child: Row(
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Text(
-                                          '품목명: ${snapshot.data![index].itemName}'
-                                          '구매량: ${snapshot.data![index].itemBuyQuant}'
-                                          '단가: ${snapshot.data![index].itemUnitPrice}'
-                                        )
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        Checkbox(
-                                          value: snapshot.data![index].itemBuyFlag == 'Y',
-                                          onChanged: (value) async{
-                                            String itemBuyFlag = value!?'Y':'N';
-                                            await itemAction.changeItemBuyFlag(snapshot.data![index].itemSeq, itemBuyFlag);
-                                            setState(() {
-                                              itemList = itemAction.itemList(widget.shoppingSeq);
-                                            });
-                                          },
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                )
+                    if (!snapshot.hasData) {
+                      return const Text("데이터 없음");
+                    }
+                    return ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        final item = snapshot.data![index];
+                        return GestureDetector(
+                          onLongPress: () => _showItemDeleteConfirm(snapshot.data![index].itemSeq),
+                          child: Card(
+                            child: ListTile(
+                              title: Text(item.itemName),
+                              subtitle: Text(
+                                "수량: ${item.itemBuyQuant} / 단가: ${item.itemUnitPrice}",
+                              ),
+                              trailing: Checkbox(
+                                value: item.itemBuyFlag == 'Y',
+                                onChanged: (value) async {
+                                  await itemAction.changeItemBuyFlag(
+                                      item.itemSeq, value! ? 'Y' : 'N');
+                                  setState(() {
+                                    itemList = itemAction.itemList(widget.shoppingSeq);
+                                  });
+                                },
                               ),
                             ),
-                          );
-                        },
-                      );
-                    } else{
-                      return Text("입력된 품목이 없습니다");
-                    }
+                          ),
+                        );
+                      },
+                    );
                   },
-                )
-              ]
-            ),
+                ),
+              ),
+            ],
           ),
-        )
+        ),
       )
     );
   }
@@ -286,6 +280,9 @@ class _ShoppingDetailState extends State<ShoppingDetail> {
                 }
                 if(context.mounted){
                   Navigator.of(context).pop();
+                  setState(() {
+                    itemList = itemAction.itemList(widget.shoppingSeq);
+                  });
                 }
               },
               child: const Text(
